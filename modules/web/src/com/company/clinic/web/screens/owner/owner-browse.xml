@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://browseCaption"
+        focusComponent="ownersTable"
+        messagesPack="com.company.clinic.web.screens.owner">
+    <data readOnly="true">
+        <collection id="ownersDc"
+                    class="com.company.clinic.entity.Owner"
+                    view="_local">
+            <loader id="ownersDl">
+                <query>
+                    <![CDATA[select e from clinic_Owner e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="ownersTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="ownersTable"
+                dataLoader="ownersDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="ownersTable"
+                    width="100%"
+                    dataContainer="ownersDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="phoneNumber"/>
+                <column id="email"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="ownersTable.create"/>
+                <button id="editBtn" action="ownersTable.edit"/>
+                <button id="removeBtn" action="ownersTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>
