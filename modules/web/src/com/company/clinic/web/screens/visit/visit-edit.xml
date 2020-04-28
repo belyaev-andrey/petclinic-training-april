@@ -16,6 +16,7 @@
     <layout expand="editActions" spacing="true">
         <form id="form" dataContainer="visitDc">
             <column width="250px">
+                <textField id="numberField" property="number" editable="false"/>
                 <pickerField id="petField" property="pet">
                     <actions>
                         <action id="lookup" type="picker_lookup"/>

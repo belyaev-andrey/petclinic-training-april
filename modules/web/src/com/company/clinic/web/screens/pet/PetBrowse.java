@@ -6,6 +6,7 @@ import com.company.clinic.entity.Pet;
 @UiController("clinic_Pet.browse")
 @UiDescriptor("pet-browse.xml")
 @LookupComponent("petsTable")
+@PrimaryLookupScreen(Pet.class)
 @LoadDataBeforeShow
 public class PetBrowse extends StandardLookup<Pet> {
 }

@@ -31,6 +31,8 @@
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
+                <action id="excel" type="excel"/>
+                <action id="greet" caption="msg://greetAction.caption" trackSelection="true" icon="HANDSHAKE_O"/>
             </actions>
             <columns>
                 <column id="name"/>
@@ -43,6 +45,8 @@
                 <button id="createBtn" action="ownersTable.create"/>
                 <button id="editBtn" action="ownersTable.edit"/>
                 <button id="removeBtn" action="ownersTable.remove"/>
+                <button id="ownersTableExcelBtn" action="ownersTable.excel"/>
+                <button id="ownersTableGreetBtn" action="ownersTable.greet"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

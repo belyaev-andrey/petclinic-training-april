@@ -14,7 +14,11 @@
     </view>
     <view entity="clinic_Visit" name="visit-edit-view" extends="_local">
         <property name="pet" view="_minimal"/>
-        <property name="veterinarian" view="veterinarian-view"/>
+        <property name="veterinarian" view="veterinarian-view">
+            <property name="user" view="_minimal">
+                <property name="email"/>
+            </property>
+        </property>
         <property name="consumables" view="_minimal">
             <property name="description"/>
             <property name="price"/>
