@@ -11,7 +11,7 @@
             <collection id="consumablesDc" property="consumables"/>
         </instance>
     </data>
-    <dialogMode height="600"
+    <dialogMode height="auto"
                 width="800"/>
     <layout expand="editActions" spacing="true">
         <form id="form" dataContainer="visitDc">

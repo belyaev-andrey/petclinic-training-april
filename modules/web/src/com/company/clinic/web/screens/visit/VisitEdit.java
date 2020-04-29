@@ -5,6 +5,7 @@ import com.company.clinic.service.VisitService;
 import com.haulmont.cuba.gui.components.TextInputField;
 import com.haulmont.cuba.gui.model.CollectionChangeType;
 import com.haulmont.cuba.gui.model.CollectionContainer;
+import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.model.InstanceContainer;
 import com.haulmont.cuba.gui.screen.*;
 import com.company.clinic.entity.Visit;
@@ -19,6 +20,8 @@ public class VisitEdit extends StandardEditor<Visit> {
 
     @Inject
     private VisitService visitService;
+    @Inject
+    private DataContext dataContext;
 
     private void refreshAmount() {
         Visit visit = getEditedEntity();

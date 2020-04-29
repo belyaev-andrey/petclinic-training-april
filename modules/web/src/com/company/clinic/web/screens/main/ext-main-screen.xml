@@ -1,0 +1,51 @@
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        extends="/com/haulmont/cuba/web/app/main/main-screen.xml">
+    <data>
+        <collection id="visitsDc" class="com.company.clinic.entity.Visit" view="visit-browse-view">
+            <loader id="visitsDl">
+                <query>
+                    <![CDATA[select e from clinic_Visit e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="petsDc" class="com.company.clinic.entity.Pet" view="_local">
+            <loader id="petsDl">
+                <query>
+                    <![CDATA[select e from clinic_Pet e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <actions>
+        <action id="scheduleAction" caption="msg://scheduleAction.caption" icon="CALENDAR_PLUS_O"/>
+        <action caption="msg://refreshAction.caption" icon="REFRESH" id="refreshAction"/>
+    </actions>
+    <layout>
+        <cssLayout id="horizontalWrap">
+            <workArea id="workArea">
+                <initialLayout expand="visitsCalendar">
+                    <hbox id="topBox" spacing="true" expand="welcomeBox" width="100%">
+                        <form id="scheduleForm">
+                            <column width="400px">
+                                <lookupField id="petSelector" caption="msg://petSelector.caption"
+                                             optionsContainer="petsDc" required="true"/>
+                                <dateField id="dateSelector" caption="msg://dateSelector.caption"
+                                           datatype="localDateTime" required="true"/>
+                                <hbox spacing="true">
+                                    <button action="scheduleAction"/>
+                                    <button action="refreshAction"/>
+                                </hbox>
+                            </column>
+                        </form>
+                        <vbox id="welcomeBox" height="100%">
+                            <label id="welcomeLabel" value="msg://welcomeLabel.value" align="MIDDLE_CENTER"/>
+                        </vbox>
+                    </hbox>
+                    <calendar id="visitsCalendar" width="100%" dataContainer="visitsDc" firstVisibleHourOfDay="8"
+                              lastVisibleHourOfDay="19" captionProperty="description" startDateProperty="date"
+                              endDateProperty="endDate"/>
+                </initialLayout>
+            </workArea>
+        </cssLayout>
+    </layout>
+</window>
