@@ -33,7 +33,6 @@
                 <action id="remove" type="remove"/>
                 <action id="excel" type="excel"/>
                 <action id="greet" caption="msg://greetAction.caption" trackSelection="true" icon="HANDSHAKE_O"/>
-                <action id="runReport" type="runReport"/>
             </actions>
             <columns>
                 <column id="name"/>
@@ -48,7 +47,7 @@
                 <button id="removeBtn" action="ownersTable.remove"/>
                 <button id="ownersTableExcelBtn" action="ownersTable.excel"/>
                 <button id="ownersTableGreetBtn" action="ownersTable.greet"/>
-                <button id="ownersTableRunReportBtn" action="ownersTable.runReport"/>
+                <button id="ownersTableRunReportBtn"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
