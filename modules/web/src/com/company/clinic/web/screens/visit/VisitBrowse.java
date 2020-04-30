@@ -25,8 +25,6 @@ public class VisitBrowse extends StandardLookup<Visit> {
     @Inject
     private CollectionContainer<Visit> visitsDc;
     @Inject
-    private DataManager dataManager;
-    @Inject
     private UserSession userSession;
 
     @Subscribe("visitsTable.printInvoice")
