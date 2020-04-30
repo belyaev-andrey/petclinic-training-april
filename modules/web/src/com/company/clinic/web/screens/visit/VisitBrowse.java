@@ -5,11 +5,13 @@ import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.components.Action;
 import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.screen.*;
+import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.reports.entity.Report;
 import com.haulmont.reports.gui.ReportGuiManager;
 
 import javax.inject.Inject;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @UiController("clinic_Visit.browse")
@@ -24,19 +26,20 @@ public class VisitBrowse extends StandardLookup<Visit> {
     private CollectionContainer<Visit> visitsDc;
     @Inject
     private DataManager dataManager;
+    @Inject
+    private UserSession userSession;
 
     @Subscribe("visitsTable.printInvoice")
     public void onVisitsTablePrintInvoice(Action.ActionPerformedEvent event) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("visit", visitsDc.getItem());
-        Report report = dataManager.load(Report.class)
-                .query("select r from report$Report r where r.name = :name")
-                .parameter("name", "Invoice")
-                .optional()
-                .orElse(null);
+        Report invoiceReport = reportGuiManager.
+                getAvailableReports(this.getId(), userSession.getUser(), null).stream()
+                .filter(r -> "Invoice".equals(r.getName()))
+                .findFirst().orElse(null);
 
-        if (report != null) {
-            reportGuiManager.printReport(report, params, this);
+        if (invoiceReport != null) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("visit", visitsDc.getItem());
+            reportGuiManager.printReport(invoiceReport, params, this);
         }
     }
 
