@@ -6,6 +6,18 @@ buildscript {
             url 'https://dl.bintray.com/cuba-platform/main'
             
         }
+
+        maven {
+            url './repository'
+        }
+
+        maven {
+            url 'https://cuba-platform.bintray.com/premium'
+            credentials {
+                username(rootProject.hasProperty('bintrayPremiumRepoUser') ? rootProject['bintrayPremiumRepoUser'] : System.getenv('CUBA_PREMIUM_USER'))
+                password(rootProject.hasProperty('premiumRepoPass') ? rootProject['premiumRepoPass'] : System.getenv('CUBA_PREMIUM_PASSWORD'))
+            }
+        }
         jcenter()
 
         
@@ -36,6 +48,9 @@ cuba {
 dependencies {
     appComponent("com.haulmont.cuba:cuba-global:$cubaVersion")
     appComponent("com.haulmont.reports:reports-global:$cubaVersion")
+    appComponent("com.haulmont.charts:charts-global:$cubaVersion")
+    appComponent('com.haulmont.addon.bproc:bproc-global:1.1.1.trial')
+    appComponent('com.haulmont.addon.helium:helium-global:0.2.0')
 }
 
 def hsql = 'org.hsqldb:hsqldb:2.4.1'
@@ -148,6 +163,21 @@ configure(webModule) {
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
         appName = "${modulePrefix}"
         appJars(modulePrefix + '-global', modulePrefix + '-web')
+    }
+
+    task buildScssThemes(type: CubaWebScssThemeCreation)
+
+    task deployThemes(type: CubaDeployThemeTask, dependsOn: buildScssThemes)
+
+    assemble.dependsOn buildScssThemes
+
+    task themesJar(type: Jar) {
+        from file('themes')
+        classifier = 'themes'
+    }
+
+    artifacts {
+        archives themesJar
     }
 }
 

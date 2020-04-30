@@ -8,5 +8,6 @@
         <item screen="clinic_Veterinarian.browse"/>
         <item screen="clinic_Visit.browse"/>
         <item screen="clinic_UsedConsumables"/>
+        <item screen="clinic_PriceHistoryScreen"/>
     </menu>
 </menu-config>

@@ -20,7 +20,7 @@ import com.haulmont.cuba.security.role.ScreenPermissionsContainer;
 public class VeterinarianRole extends AnnotatedRoleDefinition {
     public final static String NAME = "veterinarian-access";
 
-    @ScreenAccess(screenIds = {"clinic_Consumable.browse", "application-clinic", "clinic_Visit.browse", "clinic_UsedConsumables", "clinic_Visit.edit"})
+    @ScreenAccess(screenIds = {"clinic_Consumable.browse", "application-clinic", "clinic_Visit.browse", "clinic_UsedConsumables", "clinic_Visit.edit", "clinic_StartTreatmentScreen", "clinic_DoTreatmentScreen"})
     @Override
     public ScreenPermissionsContainer screenPermissions() {
         return super.screenPermissions();

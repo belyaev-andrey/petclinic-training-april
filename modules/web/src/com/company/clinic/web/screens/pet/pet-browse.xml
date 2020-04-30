@@ -3,7 +3,7 @@
         xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
         caption="msg://browseCaption"
         focusComponent="petsTable"
-        messagesPack="com.company.clinic.web.screens.pet">
+        messagesPack="com.company.clinic.web.screens.pet" xmlns:chart="http://schemas.haulmont.com/charts/charts.xsd">
     <data readOnly="true">
         <collection id="petsDc"
                     class="com.company.clinic.entity.Pet"
@@ -14,11 +14,31 @@
                 </query>
             </loader>
         </collection>
+        <keyValueCollection id="visitsCountDc">
+            <loader>
+                <query>
+                    <![CDATA[select v.pet.id, v.pet.name, count(v.pet.id) from clinic_Visit v group by v.pet.id]]>
+                </query>
+            </loader>
+            <properties idProperty="petId">
+                <property name="petId" datatype="uuid"/>
+                <property name="petName" datatype="string"/>
+                <property name="count" datatype="long"/>
+            </properties>
+        </keyValueCollection>
     </data>
     <dialogMode height="600"
                 width="800"/>
     <layout expand="petsTable"
             spacing="true">
+        <chart:pieChart id="petsPieChart"
+                        height="250px"
+                        width="100%"
+                        dataContainer="visitsCountDc"
+                        titleField="petName"
+                        valueField="count">
+            <chart:legend position="RIGHT"/>
+        </chart:pieChart>
         <filter id="filter"
                 applyTo="petsTable"
                 dataLoader="petsDl">

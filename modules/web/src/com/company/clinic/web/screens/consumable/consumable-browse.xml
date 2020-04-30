@@ -3,7 +3,8 @@
         xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
         caption="msg://browseCaption"
         focusComponent="consumablesTable"
-        messagesPack="com.company.clinic.web.screens.consumable">
+        messagesPack="com.company.clinic.web.screens.consumable"
+        xmlns:chart="http://schemas.haulmont.com/charts/charts.xsd">
     <data readOnly="true">
         <collection id="consumablesDc"
                     class="com.company.clinic.entity.Consumable"
@@ -19,6 +20,14 @@
                 width="800"/>
     <layout expand="consumablesTable"
             spacing="true">
+        <chart:serialChart id="consumablesPricesChart"
+                           categoryField="name"
+                           height="350px" width="100%">
+            <chart:graphs>
+                <chart:graph type="COLUMN" valueField="price"/>
+            </chart:graphs>
+            <chart:categoryAxis labelRotation="20"/>
+        </chart:serialChart>
         <filter id="filter"
                 applyTo="consumablesTable"
                 dataLoader="consumablesDl">

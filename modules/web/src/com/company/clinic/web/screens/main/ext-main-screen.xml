@@ -40,6 +40,9 @@
                             </column>
                         </form>
                         <vbox id="welcomeBox" height="100%">
+                            <image id="clinicLogoImage" align="MIDDLE_CENTER">
+                                <theme path="branding/app-icon-menu.png"/>
+                            </image>
                             <label id="welcomeLabel" value="msg://welcomeLabel.value" align="MIDDLE_CENTER"/>
                         </vbox>
                     </hbox>

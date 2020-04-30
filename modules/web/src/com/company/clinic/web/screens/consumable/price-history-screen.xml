@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.company.clinic.web.screens.consumable"
+        xmlns:chart="http://schemas.haulmont.com/charts/charts.xsd">
+    <data>
+        <collection id="priceHistoriesDc"
+                    class="com.company.clinic.entity.PriceHistory" view="_local">
+        </collection>
+    </data>
+    <facets>
+        <timer id="updateChartTimer" delay="2000" repeating="true" autostart="true"/>
+    </facets>
+    <layout>
+        <chart:serialChart id="priceHistoryChart"
+                           height="100%" width="100%"
+                           categoryField="ts"
+        >
+            <chart:graphs>
+                <chart:graph valueField="price"/>
+            </chart:graphs>
+            <chart:categoryAxis minPeriod="SECONDS"/>
+        </chart:serialChart>
+    </layout>
+</window>
