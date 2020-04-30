@@ -32,6 +32,7 @@
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
                 <action id="listPrintForm" type="listPrintForm"/>
+                <action id="printInvoice" icon="DOLLAR" caption="msg://printInvoice.caption"/>
             </actions>
             <columns>
                 <column id="number"/>
@@ -49,6 +50,7 @@
                 <button id="editBtn" action="visitsTable.edit"/>
                 <button id="removeBtn" action="visitsTable.remove"/>
                 <button id="visitsTableListPrintFormBtn" action="visitsTable.listPrintForm"/>
+                <button id="invoiceBtn" action="visitsTable.printInvoice"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
