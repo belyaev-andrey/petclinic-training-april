@@ -1,6 +1,7 @@
 package com.company.clinic.service;
 
 import com.company.clinic.entity.Pet;
+import com.company.clinic.entity.Veterinarian;
 import com.company.clinic.entity.Visit;
 import com.haulmont.cuba.security.entity.User;
 
@@ -14,4 +15,5 @@ public interface VisitService {
 
     Visit scheduleVisit(Pet pet, LocalDateTime visitDate, User user);
 
+    Veterinarian findVetByUser(User user);
 }

@@ -51,7 +51,8 @@ public class VisitServiceBean implements VisitService {
         return dataManager.commit(visit);
     }
 
-    private Veterinarian findVetByUser(User user) {
+    @Override
+    public Veterinarian findVetByUser(User user) {
         return dataManager.load(Veterinarian.class)
                 .query("select v from clinic_Veterinarian v where v.user.id = :userId")
                 .parameter("userId", user.getId())

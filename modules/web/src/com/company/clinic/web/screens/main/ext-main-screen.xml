@@ -15,6 +15,7 @@
                 </query>
             </loader>
         </collection>
+        <instance id="visitDc" class="com.company.clinic.entity.Visit" view="visit-edit-view"/>
     </data>
     <actions>
         <action id="scheduleAction" caption="msg://scheduleAction.caption" icon="CALENDAR_PLUS_O"/>
@@ -28,9 +29,10 @@
                         <form id="scheduleForm">
                             <column width="400px">
                                 <lookupField id="petSelector" caption="msg://petSelector.caption"
-                                             optionsContainer="petsDc" required="true"/>
+                                             optionsContainer="petsDc" dataContainer="visitDc" property="pet"/>
                                 <dateField id="dateSelector" caption="msg://dateSelector.caption"
-                                           datatype="localDateTime" required="true"/>
+                                           datatype="localDateTime" dataContainer="visitDc" property="date"/>
+                                <textArea id="petDescriptor" caption="msg://petDescriptor.caption" property="description" dataContainer="visitDc"/>
                                 <hbox spacing="true">
                                     <button action="scheduleAction"/>
                                     <button action="refreshAction"/>
