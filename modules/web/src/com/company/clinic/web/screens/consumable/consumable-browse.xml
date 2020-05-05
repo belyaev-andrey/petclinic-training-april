@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
-        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
         caption="msg://browseCaption"
         focusComponent="consumablesTable"
         messagesPack="com.company.clinic.web.screens.consumable"
@@ -20,14 +19,16 @@
                 width="800"/>
     <layout expand="consumablesTable"
             spacing="true">
-        <chart:serialChart id="consumablesPricesChart"
-                           categoryField="name"
-                           height="350px" width="100%">
-            <chart:graphs>
-                <chart:graph type="COLUMN" valueField="price"/>
-            </chart:graphs>
-            <chart:categoryAxis labelRotation="20"/>
-        </chart:serialChart>
+        <groupBox collapsable="true" collapsed="true" caption="msg://pricesChart.caption">
+            <chart:serialChart id="consumablesPricesChart"
+                                   categoryField="name"
+                                   height="350px" width="100%">
+                <chart:graphs>
+                    <chart:graph type="COLUMN" valueField="price"/>
+                </chart:graphs>
+                <chart:categoryAxis labelRotation="20"/>
+            </chart:serialChart>
+        </groupBox>
         <filter id="filter"
                 applyTo="consumablesTable"
                 dataLoader="consumablesDl">

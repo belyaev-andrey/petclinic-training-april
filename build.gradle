@@ -1,16 +1,15 @@
-
 buildscript {
     ext.cubaVersion = '7.2.4'
     repositories {
+        jcenter()
+        gradlePluginPortal()
         maven {
             url 'https://dl.bintray.com/cuba-platform/main'
-            
-        }
 
+        }
         maven {
             url './repository'
         }
-
         maven {
             url 'https://cuba-platform.bintray.com/premium'
             credentials {
@@ -18,16 +17,14 @@ buildscript {
                 password(rootProject.hasProperty('premiumRepoPass') ? rootProject['premiumRepoPass'] : System.getenv('CUBA_PREMIUM_PASSWORD'))
             }
         }
-        jcenter()
-
-        
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
+        classpath 'com.bmuschko:gradle-docker-plugin:6.4.0'
     }
 }
 
-def modulePrefix = 'app'
+def modulePrefix = 'clinic'
 
 def globalModule = project(":${modulePrefix}-global")
 def coreModule = project(":${modulePrefix}-core")
@@ -36,6 +33,10 @@ def webModule = project(":${modulePrefix}-web")
 def servletApi = 'javax.servlet:javax.servlet-api:3.1.0'
 
 apply(plugin: 'cuba')
+apply(plugin: 'com.bmuschko.docker-remote-api')
+
+// Import task types
+import com.bmuschko.gradle.docker.tasks.image.*
 
 cuba {
     artifact {
@@ -51,9 +52,11 @@ dependencies {
     appComponent("com.haulmont.charts:charts-global:$cubaVersion")
     appComponent('com.haulmont.addon.bproc:bproc-global:1.1.1.trial')
     appComponent('com.haulmont.addon.helium:helium-global:0.2.0')
+    appComponent('com.haulmont.addon.restapi:restapi-global:7.2.0')
 }
 
 def hsql = 'org.hsqldb:hsqldb:2.4.1'
+def postgres = 'org.postgresql:postgresql:42.2.9'
 
 configure([globalModule, coreModule, webModule]) {
     apply(plugin: 'java')
@@ -61,10 +64,10 @@ configure([globalModule, coreModule, webModule]) {
     apply(plugin: 'cuba')
 
     dependencies {
-            testCompile('org.junit.jupiter:junit-jupiter-api:5.5.2')
-            testCompile('org.junit.jupiter:junit-jupiter-engine:5.5.2')
-            testCompile('org.junit.vintage:junit-vintage-engine:5.5.2')  
-        }
+        testCompile('org.junit.jupiter:junit-jupiter-api:5.5.2')
+        testCompile('org.junit.jupiter:junit-jupiter-engine:5.5.2')
+        testCompile('org.junit.vintage:junit-vintage-engine:5.5.2')
+    }
 
     task sourceJar(type: Jar) {
         from file('src')
@@ -73,7 +76,7 @@ configure([globalModule, coreModule, webModule]) {
 
     artifacts {
         archives sourceJar
-    } 
+    }
     test {
         useJUnitPlatform()
     }
@@ -93,6 +96,13 @@ configure(globalModule) {
             enabled = true
         }
     }
+
+    jar {
+        manifest {
+            attributes('App-Component-Id': cuba.artifact.group)
+            attributes('App-Component-Version': cuba.artifact.version + (cuba.artifact.isSnapshot ? '-SNAPSHOT' : ''))
+        }
+    }
 }
 
 configure(coreModule) {
@@ -105,6 +115,7 @@ configure(coreModule) {
     dependencies {
         compile(globalModule)
         compileOnly(servletApi)
+        jdbc(postgres)
         jdbc(hsql)
         testRuntime(hsql)
     }
@@ -198,3 +209,20 @@ task restart(dependsOn: ['stop', ":${modulePrefix}-core:deploy", ":${modulePrefi
 }
 restart.finalizedBy start
 
+task buildUberJar(type: CubaUberJarBuilding) {
+    logbackConfigurationFile = 'etc/uber-jar-logback.xml'
+    singleJar = true
+    appProperties = ['cuba.automaticDatabaseUpdate': true]
+}
+
+task copyUberJar(type: Copy) {
+    dependsOn   'buildUberJar'
+    from        "build/distributions/uberJar/${modulePrefix}.jar"
+    into        'docker-image'
+}
+
+task buildDockerImage(type: DockerBuildImage) {
+    dependsOn   copyUberJar
+    inputDir = file('docker-image')
+    images.add('petclinic:latest')
+}

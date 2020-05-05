@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<app-component xmlns="http://schemas.haulmont.com/cuba/app-component.xsd"
+               dependsOn="com.haulmont.reports, com.haulmont.charts, com.haulmont.cuba, com.haulmont.addon.restapi, com.haulmont.addon.helium, com.haulmont.addon.bproc">
+
+    <module name="global" blocks="*">
+        <artifact name="clinic-global" appJar="true"/>
+
+        <property name="cuba.persistenceConfig" value="+com/company/clinic/persistence.xml"/>
+        <property name="cuba.metadataConfig" value="+com/company/clinic/metadata.xml"/>
+        <property name="cuba.viewsConfig" value="+com/company/clinic/views.xml"/>
+    </module>
+    <module name="core" dependsOn="global" blocks="core">
+        <artifact name="clinic-core" appJar="true"/>
+        <artifact name="clinic-core" classifier="db" ext="zip" configuration="dbscripts"/>
+
+        <property name="cuba.springContextConfig" value="+com/company/clinic/spring.xml"/>
+        <property name="cuba.mainMessagePack" value="+com.company.clinic.core"/>
+    </module>
+    <module name="web" dependsOn="global" blocks="web">
+        <artifact name="clinic-web" appJar="true"/>
+        <artifact name="clinic-web" classifier="web" ext="zip" configuration="webcontent"/>
+        <artifact name="clinic-web" ext="jar" configuration="themes" classifier="themes"/>
+
+        <property name="cuba.springContextConfig" value="+com/company/clinic/web-spring.xml"/>
+        <property name="cuba.dispatcherSpringContextConfig" value="+com/company/clinic/web-dispatcher-spring.xml"/>
+        <property name="cuba.windowConfig" value="+com/company/clinic/web-screens.xml"/>
+        <property name="cuba.menuConfig" value="+com/company/clinic/web-menu.xml"/>
+        <property name="cuba.permissionConfig" value="+com/company/clinic/web-permissions.xml"/>
+        <property name="cuba.mainMessagePack" value="+com.company.clinic.web"/>
+    </module>
+</app-component>

@@ -1,6 +1,7 @@
 package com.company.clinic.web.screens.main;
 
 import com.company.clinic.entity.Pet;
+import com.company.clinic.entity.Veterinarian;
 import com.company.clinic.entity.Visit;
 import com.company.clinic.service.VisitService;
 import com.haulmont.cuba.core.entity.Entity;
@@ -72,6 +73,16 @@ public class ExtMainScreen extends MainScreen {
                     .show();
             return;
         }
+        Veterinarian vet = visitService.findVetByUser(userSession.getUser());
+        if (vet == null) {
+            notifications.create(Notifications.NotificationType.WARNING)
+                    .withCaption("Please assign a veterinarinan for this account")
+                    .withHideDelayMs(100)
+                    .show();
+            return;
+        }
+        item.setVeterinarian(vet);
+        item.setAmount(visitService.calculateAmount(item));
         dataContext.commit(); //dataManager.commit(item);
         visitsDc.replaceItem(visitDc.getItem());
         visitDc.setItem(createNewVisit());
@@ -80,8 +91,6 @@ public class ExtMainScreen extends MainScreen {
     private Visit createNewVisit() {
         Visit visit = dataContext.create(Visit.class);
         visit.setHoursSpent(1);
-        visit.setVeterinarian(visitService.findVetByUser(userSession.getUser()));
-        visit.setAmount(visitService.calculateAmount(visit));
         return visit;
     }
 

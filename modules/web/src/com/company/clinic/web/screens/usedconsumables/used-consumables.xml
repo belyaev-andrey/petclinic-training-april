@@ -3,12 +3,36 @@
         caption="msg://caption"
         messagesPack="com.company.clinic.web.screens.usedconsumables">
     <data>
-        <collection id="consumablesDc" class="com.company.clinic.entity.Consumable" view="_local">
-            <loader id="consumablesDl"/>
-        </collection>
+        <keyValueCollection id="consumablesDc">
+            <properties>
+                <property name="title" datatype="string"/>
+                <property name="description" datatype="string"/>
+                <property name="price" datatype="decimal"/>
+                <property name="usage" datatype="long"/>
+            </properties>
+            <loader id="consumablesDl">
+                <query>
+                    <![CDATA[select c from clinic_Consumable]]>
+                </query>
+            </loader>
+        </keyValueCollection>
     </data>
-    <layout>
-        <groupTable id="consumablesTable" height="100%" width="100%" dataContainer="consumablesDc">
+    <layout expand="consumablesTable">
+        <hbox id="topBox" spacing="true" margin="true,false,true,false">
+            <label value="msg://usageCount.caption" align="MIDDLE_LEFT"/>
+            <label value="msg://priceLimit" align="MIDDLE_LEFT"/>
+            <jsComponent id="moneySelector"
+                         initFunctionName="com_company_clinic_web_ui_components_jscomponent_MoneySelector"
+                         align="MIDDLE_LEFT">
+                <dependencies>
+                    <dependency path="webjar://jquery:jquery.min.js"/>
+                    <dependency path="vaadin://moneyselector/jquery.maskMoney.js"/>
+                    <dependency path="vaadin://moneyselector/money-selector-connector.js"/>
+                </dependencies>
+            </jsComponent>
+
+        </hbox>
+        <groupTable id="consumablesTable" width="100%" dataContainer="consumablesDc">
             <actions>
                 <action id="excel" type="excel"/>
                 <action id="refresh" type="refresh"/>
@@ -21,6 +45,7 @@
                 <column id="title"/>
                 <column id="description"/>
                 <column id="price"/>
+                <column id="usage" caption="msg://usageCount.caption"/>
             </columns>
         </groupTable>
     </layout>

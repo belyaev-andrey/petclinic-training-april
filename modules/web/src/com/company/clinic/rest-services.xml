@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns="http://schemas.haulmont.com/cuba/rest-services-v2.xsd">
+    <service name="clinic_VisitService">
+        <method name="scheduleVisit">
+            <param name="visitDate" type="java.time.LocalDateTime"/>
+            <param name="user" type="com.haulmont.cuba.security.entity.User"/>
+            <param name="pet" type="com.company.clinic.entity.Pet"/>
+        </method>
+    </service>
+</services>
+

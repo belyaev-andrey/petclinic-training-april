@@ -31,14 +31,16 @@
                 width="800"/>
     <layout expand="petsTable"
             spacing="true">
-        <chart:pieChart id="petsPieChart"
-                        height="250px"
-                        width="100%"
-                        dataContainer="visitsCountDc"
-                        titleField="petName"
-                        valueField="count">
-            <chart:legend position="RIGHT"/>
-        </chart:pieChart>
+        <groupBox caption="msg://petVisitsChart.caption" collapsable="true" collapsed="true">
+            <chart:pieChart id="petsPieChart"
+                                height="250px"
+                                width="100%"
+                                dataContainer="visitsCountDc"
+                                titleField="petName"
+                                valueField="count">
+                <chart:legend position="RIGHT"/>
+            </chart:pieChart>
+        </groupBox>
         <filter id="filter"
                 applyTo="petsTable"
                 dataLoader="petsDl">

@@ -7,8 +7,10 @@ import com.company.clinic.entity.Visit;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.security.entity.User;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -52,12 +54,13 @@ public class VisitServiceBean implements VisitService {
     }
 
     @Override
+    @Nullable
     public Veterinarian findVetByUser(User user) {
         return dataManager.load(Veterinarian.class)
                 .query("select v from clinic_Veterinarian v where v.user.id = :userId")
                 .parameter("userId", user.getId())
                 .view(View.LOCAL)
                 .optional()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElse(null);
     }
 }
